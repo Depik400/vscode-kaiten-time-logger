@@ -122,7 +122,7 @@ class CommitModalPanel {
     
     async saveLastSelectedRole(roleId) {
         const config = vscode.workspace.getConfiguration('kaitenTimeLogger');
-        await config.update('lastSelectedRole', roleId, vscode.ConfigurationTarget.Global);
+        await config.update('lastSelectedRole', roleId, vscode.ConfigurationTarget.Workspace);
     }
 
     escapeHtml(text) {

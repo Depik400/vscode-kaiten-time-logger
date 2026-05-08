@@ -50,8 +50,8 @@ async function promptForSettings() {
     
     // Сохраняем настройки
     const config = vscode.workspace.getConfiguration('kaitenTimeLogger');
-    await config.update('baseUrl', baseUrl, vscode.ConfigurationTarget.Global);
-    await config.update('apiToken', token, vscode.ConfigurationTarget.Global);
+    await config.update('baseUrl', baseUrl, vscode.ConfigurationTarget.Workspace);
+    await config.update('apiToken', token, vscode.ConfigurationTarget.Workspace);
     
     vscode.window.showInformationMessage('Настройки Kaiten успешно сохранены!');
     
@@ -109,10 +109,10 @@ async function updateSettings(baseUrl, token) {
     const config = vscode.workspace.getConfiguration('kaitenTimeLogger');
     
     if (baseUrl) {
-        await config.update('baseUrl', baseUrl, vscode.ConfigurationTarget.Global);
+        await config.update('baseUrl', baseUrl, vscode.ConfigurationTarget.Workspace);
     }
     if (token) {
-        await config.update('apiToken', token, vscode.ConfigurationTarget.Global);
+        await config.update('apiToken', token, vscode.ConfigurationTarget.Workspace);
     }
 }
 

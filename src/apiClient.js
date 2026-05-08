@@ -276,7 +276,7 @@ async function sendTimeLog(timeLogData) {
         role_id: timeLogData.role_id,
         time_spent: timeLogData.time_spent,
         for_date: timeLogData.for_date,
-        comment: timeLogData.comment || null
+        comment: timeLogData.comment || ''
     };
     
     const options = {

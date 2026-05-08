@@ -144,7 +144,7 @@ function activate(context) {
     let toggleAutoModalCommand = vscode.commands.registerCommand('kaiten-time-logger.toggleAutoModal', async () => {
         const config = vscode.workspace.getConfiguration('kaitenTimeLogger');
         const current = config.get('autoOpenAfterCommit', false);
-        await config.update('autoOpenAfterCommit', !current, vscode.ConfigurationTarget.Global);
+        await config.update('autoOpenAfterCommit', !current, vscode.ConfigurationTarget.Workspace);
         vscode.window.showInformationMessage(`Авто-открытие после коммита: ${!current ? 'Включено' : 'Выключено'}`);
     });
     
@@ -152,7 +152,7 @@ function activate(context) {
     let toggleAutoDetectCommand = vscode.commands.registerCommand('kaiten-time-logger.toggleAutoDetect', async () => {
         const config = vscode.workspace.getConfiguration('kaitenTimeLogger');
         const current = config.get('autoDetectCardFromBranch', true);
-        await config.update('autoDetectCardFromBranch', !current, vscode.ConfigurationTarget.Global);
+        await config.update('autoDetectCardFromBranch', !current, vscode.ConfigurationTarget.Workspace);
         vscode.window.showInformationMessage(`Авто-определение карточки из ветки: ${!current ? 'Включено' : 'Выключено'}`);
     });
     
