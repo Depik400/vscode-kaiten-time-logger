@@ -3,8 +3,13 @@ name: Build VSIX Extension
 on:
   push:
     tags:
-      - 'v*'           # Сборка при создании тега v1.0.0, v1.1.0 и т.д.
-  workflow_dispatch:    # Ручной запуск из интерфейса GitHub
+      - 'v*'
+  workflow_dispatch:
+
+# Важно: добавляем права на создание релиза
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   build:
@@ -14,6 +19,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -46,7 +53,24 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ./*.vsix
-          name: Release ${{ github.ref_name }}
+          name: Release v${{ steps.get_version.outputs.VERSION }}
+          tag_name: ${{ github.ref_name }}
+          body: |
+            ## Kaiten Time Logger v${{ steps.get_version.outputs.VERSION }}
+            
+            ### Что нового:
+            - Автоматическое логирование времени в Kaiten
+            - Определение карточки из названия ветки
+            - Просмотр уже залогированного времени
+            - Выбор роли из списка
+            - Информация о пользователе
+            
+            ### Установка:
+            1. Скачайте файл `kaiten-time-logger-${{ steps.get_version.outputs.VERSION }}.vsix`
+            2. В VS Code: `Extensions: Install from VSIX...`
+            
+            ### Полная документация:
+            [README.md](https://github.com/Depik400/vscode-kaiten-time-logger/blob/main/README.md)
           draft: false
           prerelease: false
         env:
