@@ -1,0 +1,100 @@
+{
+  "name": "kaiten-time-logger",
+  "displayName": "Kaiten Time Logger",
+  "description": "Логирование времени в Kaiten при коммитах",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:kaiten-time-logger.showModal",
+    "onCommand:kaiten-time-logger.resetSettings",
+    "onCommand:kaiten-time-logger.showTodayTime",
+    "onCommand:kaiten-time-logger.toggleAutoModal",
+    "onCommand:kaiten-time-logger.toggleAutoDetect",
+    "onCommand:kaiten-time-logger.refreshRoles",
+    "onCommand:kaiten-time-logger.showUserInfo"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "kaiten-time-logger.showModal",
+        "title": "Kaiten: Логировать время"
+      },
+      {
+        "command": "kaiten-time-logger.refreshRoles",
+        "title": "Kaiten: Обновить список ролей"
+      },
+      {
+        "command": "kaiten-time-logger.resetSettings",
+        "title": "Kaiten: Сбросить настройки"
+      },
+      {
+        "command": "kaiten-time-logger.showTodayTime",
+        "title": "Kaiten: Показать время за сегодня"
+      },
+      {
+        "command": "kaiten-time-logger.toggleAutoModal",
+        "title": "Kaiten: Вкл/Выкл авто-открытие после коммита"
+      },
+      {
+        "command": "kaiten-time-logger.toggleAutoDetect",
+        "title": "Kaiten: Вкл/Выкл авто-определение карточки из ветки"
+      },
+      {
+        "command": "kaiten-time-logger.showUserInfo",
+        "title": "Kaiten: Показать информацию о пользователе"
+      }
+    ],
+    "menus": {
+      "scm/sourceControl": [
+        {
+          "command": "kaiten-time-logger.showModal",
+          "group": "navigation",
+          "when": "scmProvider == git"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Kaiten Time Logger",
+      "properties": {
+        "kaitenTimeLogger.apiToken": {
+          "type": "string",
+          "default": "",
+          "description": "API токен Kaiten"
+        },
+        "kaitenTimeLogger.baseUrl": {
+          "type": "string",
+          "default": "https://kaiten.ru",
+          "description": "Базовый URL вашего Kaiten пространства"
+        },
+        "kaitenTimeLogger.lastSelectedRole": {
+          "type": "number",
+          "default": -1,
+          "description": "Последняя выбранная роль (сохраняется автоматически)"
+        },
+        "kaitenTimeLogger.autoOpenAfterCommit": {
+          "type": "boolean",
+          "default": false,
+          "description": "Автоматически открывать модальное окно после коммита"
+        },
+        "kaitenTimeLogger.autoDetectCardFromBranch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Автоматически определять ID карточки из названия ветки"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "test": "echo \"No tests yet\""
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^3.9.1"
+  }
+}
