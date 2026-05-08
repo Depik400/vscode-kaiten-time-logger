@@ -1,6 +1,3 @@
-Вот исправленный README.md:
-
-## README.md
 
 # Kaiten Time Logger for VS Code
 
