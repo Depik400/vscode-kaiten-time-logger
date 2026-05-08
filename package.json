@@ -3,6 +3,7 @@
   "displayName": "Kaiten Time Logger",
   "description": "Логирование времени в Kaiten при коммитах",
   "version": "0.0.1",
+  "publisher": "Depik400",  
   "engines": {
     "vscode": "^1.80.0"
   },
