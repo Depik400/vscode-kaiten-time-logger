@@ -263,6 +263,28 @@ async function getCardTimeLogs(cardId, forDate = null, personal = true) {
     });
 }
 
+// Функция для очистки кеша логов по конкретной карточке
+function clearCardTimeLogsCache(cardId, forDate = null) {
+    if (forDate) {
+        // Очищаем конкретный кеш с датой
+        const cacheKey = `${cardId}_${forDate}_true`;
+        timeLogsCache.delete(cacheKey);
+        console.log(`✅ Cache cleared for card ${cardId}, date ${forDate}`);
+    }
+    
+    // Также очищаем кеш без даты (all)
+    const allKey = `${cardId}_all_true`;
+    timeLogsCache.delete(allKey);
+    
+    console.log(`✅ All caches cleared for card ${cardId}`);
+}
+
+// Функция для полной очистки всего кеша
+function clearAllTimeLogsCache() {
+    timeLogsCache.clear();
+    console.log('✅ All time logs cache cleared');
+}
+
 async function sendTimeLog(timeLogData) {
     const settings = vscode.workspace.getConfiguration('kaitenTimeLogger');
     const baseUrl = settings.get('baseUrl');
@@ -315,6 +337,7 @@ async function sendTimeLog(timeLogData) {
                         // Очищаем кеш для этой карточки после успешной отправки
                         const cacheKey = `${timeLogData.card_id}_${timeLogData.for_date}_true`;
                         timeLogsCache.delete(cacheKey);
+                        clearCardTimeLogsCache(timeLogData.card_id, timeLogData.for_date);
                         resolve(response);
                     } catch (e) {
                         resolve({ success: true, data: data });
