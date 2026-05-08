@@ -6,6 +6,14 @@
   "engines": {
     "vscode": "^1.80.0"
   },
+ "repository": {
+    "type": "git",
+    "url": "https://github.com/Depik400/vscode-kaiten-time-logger"
+  },
+  "homepage": "https://github.com/Depik400/vscode-kaiten-time-logger/blob/main/README.md",
+  "bugs": {
+    "url": "https://github.com/Depik400/vscode-kaiten-time-logger/issues"
+  },
   "categories": [
     "Other"
   ],
