@@ -6,10 +6,8 @@ on:
       - 'v*'
   workflow_dispatch:
 
-# Важно: добавляем права на создание релиза
 permissions:
   contents: write
-  packages: write
 
 jobs:
   build:
@@ -32,22 +30,37 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Get version from tag
+        id: get_version
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Update version in package.json
+        run: |
+          # Обновляем версию в package.json
+          npm version ${{ steps.get_version.outputs.VERSION }} --no-git-tag-version
+          echo "✅ Updated package.json version to ${{ steps.get_version.outputs.VERSION }}"
+
       - name: Install dependencies
         run: bun install
 
       - name: Build VSIX package
         run: bunx @vscode/vsce package
 
+      - name: Rename VSIX file to include version
+        run: |
+          # Переименовываем файл, если нужно
+          ls -la *.vsix
+          # Файл уже должен иметь правильную версию из package.json
+
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kaiten-time-logger
+          name: kaiten-time-logger-${{ steps.get_version.outputs.VERSION }}
           path: ./*.vsix
           if-no-files-found: error
-
-      - name: Get version from tag
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -59,19 +72,10 @@ jobs:
             ## Kaiten Time Logger v${{ steps.get_version.outputs.VERSION }}
             
             ### Что нового:
-            - Автоматическое логирование времени в Kaiten
-            - Определение карточки из названия ветки
-            - Просмотр уже залогированного времени
-            - Выбор роли из списка
-            - Информация о пользователе
+            - Логирование времени в Kaiten
             
             ### Установка:
-            1. Скачайте файл `kaiten-time-logger-${{ steps.get_version.outputs.VERSION }}.vsix`
-            2. В VS Code: `Extensions: Install from VSIX...`
-            
-            ### Полная документация:
-            [README.md](https://github.com/Depik400/vscode-kaiten-time-logger/blob/main/README.md)
-          draft: false
-          prerelease: false
+            1. Скачайте `kaiten-time-logger-${{ steps.get_version.outputs.VERSION }}.vsix`
+            2. В VS Code: Extensions → Install from VSIX
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
